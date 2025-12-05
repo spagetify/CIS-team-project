@@ -1,5 +1,6 @@
 # CIS-team-project
 
+readme.md written by Google Gemini 
 A Python-based GUI application designed to parse unstructured court text documents (`.txt`) and convert them into formatted, analyzable Excel spreadsheets (`.xlsx`).
 
 ## Features
@@ -32,9 +33,8 @@ A Python-based GUI application designed to parse unstructured court text documen
 
 1.  Run the application:
     ```bash
-    python main.py
+    python group_projectGUIv1.py
     ```
-    *(Replace `main.py` with whatever you have named your script file)*.
 
 2.  Click **Browse** to select your court text files (File 1, File 2, or File 3).
 3.  Click **PROCESS DATA**.
