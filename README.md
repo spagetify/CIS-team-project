@@ -46,4 +46,4 @@ A Python-based GUI application designed to parse unstructured court text documen
 
 ## Note
 
-* **readme.md was written by Google Gemini**
+* **readme.md was formatted by Google Gemini**
