@@ -1,6 +1,5 @@
 # CIS-team-project
 
-readme.md written by Google Gemini 
 A Python-based GUI application designed to parse unstructured court text documents (`.txt`) and convert them into formatted, analyzable Excel spreadsheets (`.xlsx`).
 
 ## Features
@@ -44,3 +43,7 @@ A Python-based GUI application designed to parse unstructured court text documen
 
 * **Permission Error:** If you have `Court_Output.xlsx` open in Excel while trying to run the script, the program will fail to save. Please close the Excel file and try again.
 * **No Data Found:** Ensure your text files match the expected format (Header, Court Date patterns, etc.) required by the internal Regex parsers.
+
+## Note
+
+* **readme.md was written by Google Gemini**
