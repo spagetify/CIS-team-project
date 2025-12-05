@@ -30,6 +30,7 @@ fingerprint_pattern = r"DEFENDANT NEEDS TO BE FINGERPRINTED"
 
 class CourtApp:
 
+    # --- Begin GUI ---
     def center_window(self, width=600, height=350):
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -72,6 +73,8 @@ class CourtApp:
                                 command=self.process_data)
         process_btn.grid(row=4, column=0, columnspan=3, pady=30)
 
+
+    # --- Begin File Processing ---
     def browse_file(self, entry_field):
         """Opens file dialog and inserts path into the entry box"""
         filename = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
@@ -97,8 +100,9 @@ class CourtApp:
         except PermissionError:
             messagebox.showerror("Error", "Please close 'Court_Output.xlsx' before running.")
             return
+        # --- End File Processing ---
 
-        # Data Processing 
+        # --- Begin Data Processing ---
         master = []
         current_header = {'court_date': None, 'time': None,'court_num': None}
         report_header = {'run_date': None, 'page': None}
@@ -200,7 +204,9 @@ class CourtApp:
                     master[-1]['L'] = data4_match.group(3).strip()
                     master[-1]['Judgment'] = data4_match.group(4).strip()
 
-        # 4. EXPORT LOGIC (Fixed for Professional Output)
+        # --- End Data Processing ---
+
+        # --- Begin .xlsx Writing ---
         if master:
             df = pd.DataFrame(master)
             cols = ['Court Date', 'Time', 'Courtroom', 'Case Number', 'File Number', 
@@ -215,16 +221,16 @@ class CourtApp:
             # 1. Create the writer
             writer = pd.ExcelWriter('Court_Output.xlsx', engine='xlsxwriter')
             
-            # 2. Write data to 'Court Data' sheet (index=False hides the row numbers 0,1,2...)
+            # 2. Write data
             sheet_name = 'Court Data'
             df.to_excel(writer, sheet_name=sheet_name, index=False)
             
-            # 3. Get the objects to apply formatting
+            # 3. Apply formatting
             workbook = writer.book
             worksheet = writer.sheets[sheet_name]
             (max_row, max_col) = df.shape
             
-            # 4. Add the Table (This adds the blue headers and arrows)
+            # 4. Add Table
             column_settings = [{'header': col} for col in df.columns]
             worksheet.add_table(0, 0, max_row, max_col - 1, {
                 'columns': column_settings,
@@ -232,19 +238,20 @@ class CourtApp:
                 'name': 'CourtTable'
             })
             
-            # 5. Auto-adjust column width (Makes text readable)
+            # 5. Auto-adjust column width
             for i, col in enumerate(df.columns):
-                # Calculate width based on max length of data in that column
+
                 max_len = max(df[col].astype(str).map(len).max(), len(col))
                 worksheet.set_column(i, i, max_len + 2) # +2 for padding
 
             # 6. Save
             writer.close()
             
-            # --- SUCCESS MESSAGE & AUTO OPEN ---
+            # SUCCESS MESSAGE
             msg = f"Success! Processed {len(master)} records.\nSaved to 'Court_Output.xlsx'"
+            # --- Launch Excel ---
+
             launch_excel = messagebox.askyesno("Processing Complete", msg + "\n\nWould you like to open the file now?")
-            
             if launch_excel:
                 try:
                     os.startfile('Court_Output.xlsx')
